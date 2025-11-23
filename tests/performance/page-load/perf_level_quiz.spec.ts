@@ -1,0 +1,18 @@
+import { test, expect, login } from "../../fixtures/auth";
+
+test("quiz level page load <= 2000ms", async ({ browser, adminUser }) => {
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  await login(page, adminUser);
+
+  const startTime = Date.now();
+  await page.goto("/study/quiz");
+  await page.waitForLoadState("networkidle");
+  const loadTime = Date.now() - startTime;
+
+  expect(loadTime).toBeGreaterThan(0);
+  expect(loadTime).toBeLessThanOrEqual(2000);
+
+  console.log("Quiz level page load time:", loadTime + "ms");
+});
