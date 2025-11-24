@@ -18,7 +18,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: process.env.NORI_BASE_URL,
-    headless: true,
+    headless: false,
     viewport: { width: 1366, height: 900 },
     ignoreHTTPSErrors: true,
   },
