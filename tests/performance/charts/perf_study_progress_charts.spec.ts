@@ -19,6 +19,7 @@ test("study progress chart loads <= 2000ms", async ({ page }) => {
     ).toBeVisible({ timeout: 2500 });
   }
 
+  // check pie for each level loads (check Flashcards only)
   for (let i = 1; i <= 5; i++) {
     await expect(page.getByTestId(`progress-pie-n${i}`).first()).toBeVisible();
   }
