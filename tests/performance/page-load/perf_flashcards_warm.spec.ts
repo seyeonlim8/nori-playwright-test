@@ -14,5 +14,7 @@ test("flashcards page warm load <= 2000ms", async ({ page, adminUser }) => {
   expect(warmLoadTime).toBeGreaterThan(0);
   expect(warmLoadTime).toBeLessThanOrEqual(2000);
 
-  console.log("Warm Load:", warmLoadTime + "ms");
+  test
+    .info()
+    .annotations.push({ type: "warm_load_ms", description: `${warmLoadTime}` });
 });

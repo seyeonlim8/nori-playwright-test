@@ -14,5 +14,7 @@ test("quiz level page load <= 2000ms", async ({ browser, adminUser }) => {
   expect(loadTime).toBeGreaterThan(0);
   expect(loadTime).toBeLessThanOrEqual(2000);
 
-  console.log("Quiz level page load time:", loadTime + "ms");
+  test
+    .info()
+    .annotations.push({ type: "load_time_ms", description: `${loadTime}` });
 });

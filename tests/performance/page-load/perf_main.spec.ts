@@ -12,5 +12,7 @@ test("main page load <= 2000ms", async ({ browser }) => {
   expect(loadTime).toBeGreaterThan(0);
   expect(loadTime).toBeLessThanOrEqual(2000);
 
-  console.log("Load time:", loadTime + "ms");
+  test
+    .info()
+    .annotations.push({ type: "load_time_ms", description: `${loadTime}` });
 });

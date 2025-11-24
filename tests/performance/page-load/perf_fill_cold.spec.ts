@@ -17,5 +17,7 @@ test("fill-in-the-blank page cold load <= 3000ms", async ({
   expect(coldLoadTime).toBeGreaterThan(0);
   expect(coldLoadTime).toBeLessThanOrEqual(3000);
 
-  console.log("Cold Load:", coldLoadTime + "ms");
+  test
+    .info()
+    .annotations.push({ type: "cold_load_ms", description: `${coldLoadTime}` });
 });
