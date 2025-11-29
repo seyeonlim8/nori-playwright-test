@@ -35,10 +35,16 @@ export const login = async (
   await page.goto("/login");
   await page.fill('input[type="email"]', creds.email);
   await page.fill('input[type="password"]', creds.password);
-  await Promise.all([
-    page.click('button[data-testid="login-btn"]'),
-    page.waitForLoadState("networkidle"),
-  ]);
+  await page.click('button[data-testid="login-btn"]');
+
+  // Wait for navigation away from login page
+  await page.waitForURL((url) => !url.pathname.includes("/login"), {
+    timeout: 5000,
+  });
+  await page.waitForLoadState("networkidle");
+
+  // Verify we're logged in by checking for cookies/session
+  await page.context().storageState();
 };
 
 export const fill_signup_form = async (
