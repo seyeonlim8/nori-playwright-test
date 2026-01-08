@@ -39,6 +39,8 @@ export const openQuizPage = async (
 };
 
 export const answerAllQuizExceptLast = async (page: Page, quizType: string) => {
+  const changeTimeoutMs = 12000;
+  const postChangeDelayMs = 100;
   while (true) {
     const progressCounter = page.getByTestId("progress-counter");
     const counterText = await progressCounter.innerText();
@@ -52,7 +54,7 @@ export const answerAllQuizExceptLast = async (page: Page, quizType: string) => {
     const qBox = page.getByTestId("question-box");
     const oldWordId = await qBox.getAttribute("data-word-id");
 
-    await clickCorrectQuizAnswer(page, quizType)
+    await clickCorrectQuizAnswer(page, quizType);
     
     // Wait for word id change
     await page.waitForFunction(
@@ -61,7 +63,9 @@ export const answerAllQuizExceptLast = async (page: Page, quizType: string) => {
         return box?.getAttribute("data-word-id") !== oldId;
       },
       { oldId: oldWordId },
-      { timeout: 3000 }
+      { timeout: changeTimeoutMs }
     );
+
+    await page.waitForTimeout(postChangeDelayMs);
   }
 };

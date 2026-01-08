@@ -21,6 +21,8 @@ export const clickFlashcardsBtn = async (page: Page, oOrX: string) => {
 };
 
 export const answerAllFlashcardsExceptLast = async (page: Page) => {
+  const changeTimeoutMs = 12000;
+  const postChangeDelayMs = 100;
   while (true) {
     const progressCounter = page.getByTestId("progress-counter");
     const counterText = await progressCounter.innerText();
@@ -41,7 +43,9 @@ export const answerAllFlashcardsExceptLast = async (page: Page) => {
         return vocab?.getAttribute("data-word-id") !== oldId;
       },
       { oldId: oldWordId },
-      { timeout: 3000 }
+      { timeout: changeTimeoutMs }
     );
+
+    await page.waitForTimeout(postChangeDelayMs);
   }
 };
