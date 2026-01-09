@@ -10,22 +10,13 @@ test.describe("Fill correct answer feedback", () => {
 
   test("button turns green <= 500ms", async ({ page }) => {
     const answer = await getFillAnswer(page);
-    const submitBtn = await fillAndSubmit(page, answer);
+    await fillAndSubmit(page, answer);
     const startTime = Date.now();
 
-    await submitBtn.evaluate((el: HTMLElement) => {
-      return new Promise<void>((resolve) => {
-        const checkColor = () => {
-          const classList = el.classList;
-          if (classList.contains("bg-green-500")) {
-            resolve();
-          } else {
-            requestAnimationFrame(checkColor);
-          }
-        };
-        checkColor();
-      });
-    });
+    await page
+      .locator('[data-testid="submit-btn"].bg-green-500')
+      .first()
+      .waitFor({ state: "visible", timeout: 5000 });
 
     const feedbackTime = Date.now() - startTime;
     test.info().annotations.push({
@@ -39,22 +30,12 @@ test.describe("Fill correct answer feedback", () => {
 
   test("button text changes <= 500ms", async ({ page }) => {
     const answer = await getFillAnswer(page);
-    const submitBtn = await fillAndSubmit(page, answer);
+    await fillAndSubmit(page, answer);
     const startTime = Date.now();
 
-    await submitBtn.evaluate((el: HTMLElement) => {
-      return new Promise<void>((resolve) => {
-        const checkText = () => {
-          const currentText = el.innerText;
-          if (currentText.includes("Correct")) {
-            resolve();
-          } else {
-            requestAnimationFrame(checkText);
-          }
-        };
-        checkText();
-      });
-    });
+    await expect(
+      page.getByTestId("submit-btn").filter({ hasText: /Correct/i }).first()
+    ).toBeVisible({ timeout: 5000 });
 
     const feedbackTime = Date.now() - startTime;
     test.info().annotations.push({
@@ -75,22 +56,13 @@ test.describe("Fill incorrect answer feedback", () => {
   });
 
   test("button turns red <= 500ms", async ({ page }) => {
-    const submitBtn = await fillAndSubmit(page, "INCORRECT ANSWER");
+    await fillAndSubmit(page, "INCORRECT ANSWER");
     const startTime = Date.now();
 
-    await submitBtn.evaluate((el: HTMLElement) => {
-      return new Promise<void>((resolve) => {
-        const checkColor = () => {
-          const classList = el.classList;
-          if (classList.contains("bg-gray-400")) {
-            resolve();
-          } else {
-            requestAnimationFrame(checkColor);
-          }
-        };
-        checkColor();
-      });
-    });
+    await page
+      .locator('[data-testid="submit-btn"].bg-gray-400')
+      .first()
+      .waitFor({ state: "visible", timeout: 5000 });
 
     const feedbackTime = Date.now() - startTime;
     test.info().annotations.push({
@@ -103,22 +75,12 @@ test.describe("Fill incorrect answer feedback", () => {
   });
 
   test("button text changes <= 500ms", async ({ page }) => {
-    const submitBtn = await fillAndSubmit(page, "INCORRECT ANSWER");
+    await fillAndSubmit(page, "INCORRECT ANSWER");
     const startTime = Date.now();
 
-    await submitBtn.evaluate((el: HTMLElement) => {
-      return new Promise<void>((resolve) => {
-        const checkText = () => {
-          const currentText = el.innerText;
-          if (currentText.includes("Incorrect")) {
-            resolve();
-          } else {
-            requestAnimationFrame(checkText);
-          }
-        };
-        checkText();
-      });
-    });
+    await expect(
+      page.getByTestId("submit-btn").filter({ hasText: /Incorrect/i }).first()
+    ).toBeVisible({ timeout: 5000 });
 
     const feedbackTime = Date.now() - startTime;
     test.info().annotations.push({
@@ -128,5 +90,45 @@ test.describe("Fill incorrect answer feedback", () => {
 
     expect(feedbackTime).toBeGreaterThan(0);
     expect(feedbackTime).toBeLessThanOrEqual(500);
+  });
+});
+
+test.describe("Fill normalized answer feedback", () => {
+  const level = "TEST-PERF";
+  const expectedAnswer = "ガラス";
+
+  test("accepts full-width and half-width katakana <= 500ms", async ({
+    page,
+    adminUser,
+  }) => {
+    const submitAndMeasure = async (answer: string, label: string) => {
+      await openFillPage(page, adminUser, level);
+
+      const actualAnswer = await getFillAnswer(page);
+      expect(actualAnswer).toBe(expectedAnswer);
+
+      const inputBox = page.getByTestId("input-box");
+      const submitBtn = page.getByTestId("submit-btn");
+
+      await inputBox.fill(answer);
+      const startTime = Date.now();
+      await submitBtn.click();
+
+      await expect(
+        page.getByTestId("submit-btn").filter({ hasText: /Correct/i }).first()
+      ).toBeVisible({ timeout: 5000 });
+      const feedbackTime = Date.now() - startTime;
+
+      test.info().annotations.push({
+        type: `normalized_accept_${label}_ms`,
+        description: `${feedbackTime}`,
+      });
+
+      expect(feedbackTime).toBeGreaterThan(0);
+      expect(feedbackTime).toBeLessThanOrEqual(500);
+    };
+
+    await submitAndMeasure("ガラス", "full_width");
+    await submitAndMeasure("ｶﾞﾗｽ", "half_width");
   });
 });
