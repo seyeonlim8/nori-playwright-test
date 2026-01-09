@@ -8,12 +8,20 @@ End-to-end Playwright test suite for the NORI web app. This project validates co
 - Measuring UX and performance behavior using targeted scenarios.
 
 ## Project layout
-- `tests/` grouped by intent:
-  - `compatibility/`, `usability/`, `reliability/`, `security/` for focused coverage.
-  - `performance/` for flow and interaction timing checks.
-  - `fixtures/` and `helpers/` for shared auth flows and API helpers.
-- `playwright.config.ts` defines browser projects and shared settings.
-- `playwright-report/` and `test-results/` contain generated artifacts.
+```
+.
+|--- tests/
+|    |--- compatibility/    # Focused coverage by test intent
+|    |--- usability/
+|    |--- reliability/
+|    |--- security/
+|    |--- performance/      # Flow and interaction timing checks
+|    |--- fixtures/         # Shared auth flows
+|    |--- helpers/          # API helpers and shared utilities
+|--- playwright.config.ts   # Browser projects and shared settings
+|--- playwright-report/     # Generated HTML reports
+|--- test-results/          # Generated artifacts
+```
 
 ## Requirements
 - Node.js 18+ recommended
