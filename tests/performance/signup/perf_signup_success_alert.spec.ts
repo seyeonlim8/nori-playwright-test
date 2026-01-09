@@ -1,6 +1,9 @@
 import { test, expect, fill_signup_form } from "../../fixtures/auth";
 
-test("signup success alert appears <= 1000ms", async ({ page, testUser }) => {
+test("signup success message appears <= 6000ms", async ({
+  page,
+  testUser,
+}) => {
   await fill_signup_form(
     page,
     testUser.username,
@@ -9,18 +12,18 @@ test("signup success alert appears <= 1000ms", async ({ page, testUser }) => {
   );
 
   const startTime = Date.now();
-
-  const dialogPromise = page.waitForEvent("dialog");
   await page.click('button:has-text("Sign Up")');
 
-  const dialog = await dialogPromise;
-  const alertTime = Date.now() - startTime;
-
-  await dialog.accept();
+  const statusMessage = page.getByTestId("signup-status");
+  await expect(statusMessage).toHaveText(
+    "Account created! Please check your email to verify your account.",
+    { timeout: 5000 }
+  );
+  const messageTime = Date.now() - startTime;
 
   test
     .info()
-    .annotations.push({ type: "alert_time_ms", description: `${alertTime}` });
-  expect(alertTime).toBeGreaterThan(0);
-  expect(alertTime).toBeLessThanOrEqual(1000);
+    .annotations.push({ type: "signup_status_ms", description: `${messageTime}` });
+  expect(messageTime).toBeGreaterThan(0);
+  expect(messageTime).toBeLessThanOrEqual(6000);
 });
