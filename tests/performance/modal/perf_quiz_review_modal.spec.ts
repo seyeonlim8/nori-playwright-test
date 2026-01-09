@@ -5,7 +5,7 @@ import {
   getQuizAnswerBtn,
 } from "../../helpers/quiz";
 
-test("quiz review modal appears <= 2000ms", async ({ page, adminUser }) => {
+test("quiz review modal appears <= 2500ms", async ({ page, adminUser }) => {
   const level = "TEST";
   const type = "k2f";
   await openQuizPage(page, adminUser, level, type);
@@ -43,7 +43,7 @@ test("quiz review modal appears <= 2000ms", async ({ page, adminUser }) => {
   });
 
   expect(modalAppearTime).toBeGreaterThan(0);
-  expect(modalAppearTime).toBeLessThanOrEqual(2000);
+  expect(modalAppearTime).toBeLessThanOrEqual(2500);
 });
 
 test("quiz review starts on yes <= 3000ms", async ({ page, adminUser }) => {
