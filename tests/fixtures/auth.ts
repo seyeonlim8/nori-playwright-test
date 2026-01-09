@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 type AuthFixtures = {
   adminUser: { email: string; password: string };
   testUser: { username: string; email: string; password: string };
+  deletableUser: { email: string; password: string };
 };
 
 export const test = base.extend<AuthFixtures>({
@@ -22,6 +23,15 @@ export const test = base.extend<AuthFixtures>({
     const uniqueEmail = `${base}+${uuidv4().replace(/-/g, "")}@gmail.com`;
     await use({
       username: uniqueUsername,
+      email: uniqueEmail!,
+      password: process.env.TEST1_PASSWORD!,
+    });
+  },
+
+  deletableUser: async ({}, use) => {
+    const base = process.env.TEST1_EMAIL!;
+    const uniqueEmail = `${base}+1@gmail.com`;
+    await use({
       email: uniqueEmail!,
       password: process.env.TEST1_PASSWORD!,
     });
