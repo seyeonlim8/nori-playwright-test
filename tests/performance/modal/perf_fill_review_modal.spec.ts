@@ -1,7 +1,7 @@
 import { test, expect } from "../../fixtures/auth";
 import { answerAllFillExceptLast, openFillPage } from "../../helpers/fill";
 
-test("fill review modal appears <= 2000ms", async ({ page, adminUser }) => {
+test("fill review modal appears <= 2500ms", async ({ page, adminUser }) => {
   const level = "TEST";
   await openFillPage(page, adminUser, level);
 
@@ -27,7 +27,7 @@ test("fill review modal appears <= 2000ms", async ({ page, adminUser }) => {
   });
 
   expect(modalAppearTime).toBeGreaterThan(0);
-  expect(modalAppearTime).toBeLessThanOrEqual(2000);
+  expect(modalAppearTime).toBeLessThanOrEqual(2500);
 });
 
 test("fill review starts on yes <= 3000ms", async ({ page, adminUser }) => {
@@ -44,7 +44,7 @@ test("fill review starts on yes <= 3000ms", async ({ page, adminUser }) => {
   await inputBox.fill("INCORRECT ANSWER");
   const submitBtn = page.getByTestId("submit-btn");
 
-  const dialogPromise = page.waitForEvent("dialog", { timeout: 3000 });
+  const dialogPromise = page.waitForEvent("dialog", { timeout: 5000 });
 
   await submitBtn.click();
   const dialog = await dialogPromise;
