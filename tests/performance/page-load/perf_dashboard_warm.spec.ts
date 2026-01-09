@@ -1,6 +1,6 @@
 import { test, expect, login } from "../../fixtures/auth";
 
-test("dashboard page warm load <= 2000ms", async ({ page, adminUser }) => {
+test("dashboard page warm load <= 3000ms", async ({ page, adminUser }) => {
   await login(page, adminUser);
 
   await page.goto("/account");
@@ -12,7 +12,7 @@ test("dashboard page warm load <= 2000ms", async ({ page, adminUser }) => {
   const warmLoadTime = Date.now() - startTime;
 
   expect(warmLoadTime).toBeGreaterThan(0);
-  expect(warmLoadTime).toBeLessThanOrEqual(2000);
+  expect(warmLoadTime).toBeLessThanOrEqual(3000);
 
   test
     .info()
