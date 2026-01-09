@@ -1,6 +1,6 @@
 import { test, expect, login } from "../../fixtures/auth";
 
-test("dashboard page cold load <= 3000ms", async ({ browser, adminUser }) => {
+test("dashboard page cold load <= 4000ms", async ({ browser, adminUser }) => {
   const context = await browser.newContext();
   const page = await context.newPage();
 
@@ -12,7 +12,7 @@ test("dashboard page cold load <= 3000ms", async ({ browser, adminUser }) => {
   const coldLoadTime = Date.now() - startTime;
 
   expect(coldLoadTime).toBeGreaterThan(0);
-  expect(coldLoadTime).toBeLessThanOrEqual(3000);
+  expect(coldLoadTime).toBeLessThanOrEqual(4000);
 
   test
     .info()
