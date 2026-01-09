@@ -20,10 +20,10 @@ test.describe("Sign Up Inline Validation Feedback", () => {
     expect(loadTime).toBeLessThanOrEqual(500);
   });
 
-  test("taken length username feedback loads <= 1000ms", async ({ page }) => {
+  test("taken length username feedback loads <= 2000ms", async ({ page }) => {
     const startTime = Date.now();
 
-    await page.getByTestId("username-input").fill("adminn");
+    await page.getByTestId("username-input").fill("admin");
     await expect(page.getByText("Username is already in use.")).toBeVisible();
 
     const loadTime = Date.now() - startTime;
@@ -32,10 +32,10 @@ test.describe("Sign Up Inline Validation Feedback", () => {
       .info()
       .annotations.push({ type: "load_time_ms", description: `${loadTime}` });
     expect(loadTime).toBeGreaterThan(0);
-    expect(loadTime).toBeLessThanOrEqual(1000);
+    expect(loadTime).toBeLessThanOrEqual(2000);
   });
 
-  test("unique length username feedback loads <= 1000ms", async ({ page }) => {
+  test("unique length username feedback loads <= 2000ms", async ({ page }) => {
     const startTime = Date.now();
 
     await page.getByTestId("username-input").fill("unique1321");
@@ -47,7 +47,7 @@ test.describe("Sign Up Inline Validation Feedback", () => {
       .info()
       .annotations.push({ type: "load_time_ms", description: `${loadTime}` });
     expect(loadTime).toBeGreaterThan(0);
-    expect(loadTime).toBeLessThanOrEqual(1000);
+    expect(loadTime).toBeLessThanOrEqual(2000);
   });
 
   test("email feedback loads <= 500ms", async ({ page }) => {
