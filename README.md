@@ -11,16 +11,16 @@ End-to-end Playwright test suite for the NORI web app. This project validates co
 ```
 .
 |--- tests/
-|    |--- compatibility/    # Focused coverage by test intent
+|    |--- compatibility/    
 |    |--- usability/
 |    |--- reliability/
 |    |--- security/
-|    |--- performance/      # Flow and interaction timing checks
-|    |--- fixtures/         # Shared auth flows
-|    |--- helpers/          # API helpers and shared utilities
-|--- playwright.config.ts   # Browser projects and shared settings
-|--- playwright-report/     # Generated HTML reports
-|--- test-results/          # Generated artifacts
+|    |--- performance/      
+|    |--- fixtures/         
+|    |--- helpers/          
+|--- playwright.config.ts   
+|--- playwright-report/     
+|--- test-results/          
 ```
 
 ## Requirements
