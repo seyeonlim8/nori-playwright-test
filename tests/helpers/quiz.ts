@@ -39,10 +39,11 @@ export const openQuizPage = async (
 };
 
 export const answerAllQuizExceptLast = async (page: Page, quizType: string) => {
+  const progressCounter = page.getByTestId("progress-counter");
+  await progressCounter.waitFor({ state: "visible", timeout: 10000 });
   const changeTimeoutMs = 12000;
   const postChangeDelayMs = 100;
   while (true) {
-    const progressCounter = page.getByTestId("progress-counter");
     const counterText = await progressCounter.innerText();
     // Format: "5 / 10" -> check if we're on the last question
     const [current, total] = counterText.split(" / ").map(Number);
