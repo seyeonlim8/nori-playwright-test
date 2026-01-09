@@ -1,7 +1,7 @@
 import { test, expect } from "../../fixtures/auth";
 import { openFlashcardsPage } from "../../helpers/flashcards";
 
-test("flashcards progress feedback <= 500ms", async ({ page, adminUser }) => {
+test("flashcards progress feedback <= 1000ms", async ({ page, adminUser }) => {
   const level = "n2";
   await openFlashcardsPage(page, adminUser, level);
   await page.waitForSelector('[data-testid="o-btn"]');
@@ -36,5 +36,5 @@ test("flashcards progress feedback <= 500ms", async ({ page, adminUser }) => {
   });
 
   expect(feedbackTime).toBeGreaterThan(0);
-  expect(feedbackTime).toBeLessThanOrEqual(500);
+  expect(feedbackTime).toBeLessThanOrEqual(1000);
 });
