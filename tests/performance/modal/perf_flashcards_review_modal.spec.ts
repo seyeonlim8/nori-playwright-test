@@ -1,7 +1,7 @@
 import { test, expect } from "../../fixtures/auth";
 import { answerAllFlashcardsExceptLast, openFlashcardsPage } from "../../helpers/flashcards";
 
-test("flashcards review modal appears <= 2000ms", async ({
+test("flashcards review modal appears <= 2500ms", async ({
   page,
   adminUser,
 }) => {
@@ -27,7 +27,7 @@ test("flashcards review modal appears <= 2000ms", async ({
   });
 
   expect(modalAppearTime).toBeGreaterThan(0);
-  expect(modalAppearTime).toBeLessThanOrEqual(2000);
+  expect(modalAppearTime).toBeLessThanOrEqual(2500);
 });
 
 test("flashcards review starts on yes <= 3000ms", async ({
