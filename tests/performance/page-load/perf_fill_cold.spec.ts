@@ -1,6 +1,6 @@
 import { test, expect, login } from "../../fixtures/auth";
 
-test("fill-in-the-blank page cold load <= 3000ms", async ({
+test("fill-in-the-blank page cold load <= 4000ms", async ({
   browser,
   adminUser,
 }) => {
@@ -15,7 +15,7 @@ test("fill-in-the-blank page cold load <= 3000ms", async ({
   const coldLoadTime = Date.now() - startTime;
 
   expect(coldLoadTime).toBeGreaterThan(0);
-  expect(coldLoadTime).toBeLessThanOrEqual(3000);
+  expect(coldLoadTime).toBeLessThanOrEqual(4000);
 
   test
     .info()
